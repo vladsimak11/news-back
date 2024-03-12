@@ -17,7 +17,7 @@ const subscribe = async(req, res, next) => {
 
     res.status(201).json({
       user: {
-        email: newUser .email,
+        email: newUser.email,
       }
     });
   } catch (error) {
