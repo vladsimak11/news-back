@@ -2,10 +2,12 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 const dotenv = require('dotenv');
-
-const authSubscribe = require('./routes/api/auth');
-
 dotenv.config();
+const mongoose = require("mongoose");
+
+const authSubscribe = require('./src/routes/api/auth');
+
+const { DB_HOST, PORT = 3000} = process.env;
 
 const app = express();
 
@@ -27,4 +29,16 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message, })
 });
 
-module.exports = app;
+mongoose.set('strictQuery', true);
+
+mongoose
+  .connect(DB_HOST)
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Database connection successful! Port: ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.log(error.message);
+    process.exit(1);
+  });

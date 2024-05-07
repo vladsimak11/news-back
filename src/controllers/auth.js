@@ -27,7 +27,6 @@ const subscribe = async (req, res, next) => {
 const getEmails = async (req, res, next) => {
   try {
     const emails = await User.find(req);
-    console.log(emails);
     res.json({
       emails,
     });
